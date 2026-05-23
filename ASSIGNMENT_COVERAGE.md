@@ -7,7 +7,7 @@ This file maps the Closira assignment checklist to the implementation.
 | Stage | Covered By | Notes |
 | --- | --- | --- |
 | FAQ answering | `closira_agent/agent.py`, `closira_agent/openai_client.py`, `data/sop.json` | Answers must cite SOP source keys. Missing SOP evidence forces escalation. |
-| Lead qualification | `closira_agent/scenarios.py`, `closira_agent/fake_client.py`, `ConversationState` | Collects treatment, timeline, and preferred booking channel. |
+| Lead qualification | `closira_agent/scenarios.py`, `ConversationState` | Collects treatment, timeline, and preferred booking channel. |
 | Escalation detection | `closira_agent/agent.py` | Handles explicit handoff, angry sentiment, medical questions, pricing negotiation, low confidence, missing SOP sources, and repeated unanswered questions. |
 | Conversation summary | `ClosiraAgent.summarize`, `format_summary` | Produces intent, collected details, SOP gaps, escalation status/reasons, and next action. |
 
@@ -37,8 +37,8 @@ This file maps the Closira assignment checklist to the implementation.
 
 ```bash
 .venv/bin/python -m pytest
-.venv/bin/python -m closira_agent.cli run-scenario in_sop --mock
-.venv/bin/python -m closira_agent.cli run-scenario escalation_trigger --mock
+.venv/bin/python -m closira_agent.cli run-scenario in_sop
+.venv/bin/python -m closira_agent.cli run-scenario escalation_trigger
 ```
 
-All automated tests pass locally. Mock scenarios do not spend OpenAI API credit.
+All automated tests pass locally. CLI scenarios call the real OpenAI API and require `OPENAI_API_KEY`.

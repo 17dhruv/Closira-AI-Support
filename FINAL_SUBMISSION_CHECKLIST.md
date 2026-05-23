@@ -35,18 +35,18 @@ Project status: complete and tested.
 ```bash
 .venv/bin/python -m pytest -v
 .venv/bin/python -m compileall closira_agent tests
-.venv/bin/python -m closira_agent.cli run-scenario in_sop --mock
-.venv/bin/python -m closira_agent.cli run-scenario out_of_scope --mock
-.venv/bin/python -m closira_agent.cli run-scenario escalation_trigger --mock
-.venv/bin/python -m closira_agent.cli run-scenario lead_qualification --mock
-.venv/bin/python -m closira_agent.cli run-scenario conversation_summary --mock
+.venv/bin/python -m closira_agent.cli run-scenario in_sop
+.venv/bin/python -m closira_agent.cli run-scenario out_of_scope
+.venv/bin/python -m closira_agent.cli run-scenario escalation_trigger
+.venv/bin/python -m closira_agent.cli run-scenario lead_qualification
+.venv/bin/python -m closira_agent.cli run-scenario conversation_summary
 ./scripts/smoke_real_api.sh
 ```
 
 Latest local verification:
 
 - Pytest: 5 passed
-- Mock scenarios: all required behaviours passed
+- Real CLI scenarios: available for all required behaviours
 - Real API smoke test: passed with `gpt-5-mini`
 - Secret scan: no API key found in tracked files
 - `.env`, `.venv`, and `.repo` are ignored

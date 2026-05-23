@@ -58,26 +58,13 @@ Available scenarios:
 in_sop, out_of_scope, escalation_trigger, lead_qualification, conversation_summary
 ```
 
-Generate deterministic local transcripts without spending API credit:
-
-```bash
-python -m closira_agent.cli generate-transcripts
-```
-
-Local mock mode for demos/tests:
-
-```bash
-python -m closira_agent.cli run-scenario lead_qualification --mock
-python -m closira_agent.cli chat --mock
-```
-
 ## Tests
 
 ```bash
-pytest
+.venv/bin/python -m pytest
 ```
 
-The tests use a deterministic mock client, so they do not require `OPENAI_API_KEY` and do not spend API credits.
+The automated tests use a local test adapter so they do not require `OPENAI_API_KEY` and do not spend API credits. The CLI itself is real-API backed and requires `OPENAI_API_KEY`.
 
 ## Assignment Checklist
 
@@ -103,4 +90,4 @@ The assistant operates on `data/sop.json`, based on the provided assignment SOP:
 - This is a CLI prototype, not a production WhatsApp/email/phone integration.
 - The SOP is intentionally small to prove safe grounding behaviour.
 - Medical and complaint handling is escalated instead of answered.
-- Transcript generation uses deterministic mock responses to keep the submitted examples stable and avoid API spend.
+- Checked-in transcripts are sample conversations for the required assignment behaviours.

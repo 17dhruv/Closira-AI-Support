@@ -12,13 +12,13 @@
 5. Run a safe in-SOP example:
 
    ```bash
-   python -m closira_agent.cli run-scenario in_sop --mock
+   python -m closira_agent.cli run-scenario in_sop
    ```
 
 6. Run an escalation example:
 
    ```bash
-   python -m closira_agent.cli run-scenario escalation_trigger --mock
+   python -m closira_agent.cli run-scenario escalation_trigger
    ```
 
 7. Show real API setup briefly:
