@@ -55,8 +55,12 @@ Or use the smoke-test helper:
 Available scenarios:
 
 ```text
-in_sop, out_of_scope, escalation_trigger, lead_qualification, conversation_summary
+in_sop, out_of_scope, escalation_trigger, lead_qualification, conversation_summary,
+real_booking_policy, real_service_comparison, real_price_negotiation,
+real_medical_safety, real_human_handoff
 ```
+
+Real-world demo scenarios and expected-vs-actual evaluation criteria are documented in `docs/real_world_case_scenarios.md`.
 
 ## Tests
 

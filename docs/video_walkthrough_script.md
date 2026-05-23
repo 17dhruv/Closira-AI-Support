@@ -21,7 +21,17 @@
    python -m closira_agent.cli run-scenario escalation_trigger
    ```
 
-7. Show real API setup briefly:
+7. Show real-world case scenarios:
+
+   ```bash
+   python -m closira_agent.cli run-scenario real_booking_policy
+   python -m closira_agent.cli run-scenario real_price_negotiation
+   python -m closira_agent.cli run-scenario real_medical_safety
+   ```
+
+   Open `docs/real_world_case_scenarios.md` and point to the expected-vs-actual evaluation table.
+
+8. Show real API setup briefly:
 
    ```bash
    export OPENAI_API_KEY="..."
@@ -29,4 +39,4 @@
    python -m closira_agent.cli chat
    ```
 
-8. Close by showing `test_transcripts/` and explaining that each required assignment behaviour has a sample transcript.
+9. Close by showing `test_transcripts/` and explaining that each required assignment behaviour has a sample transcript.

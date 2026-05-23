@@ -40,6 +40,9 @@ Project status: complete and tested.
 .venv/bin/python -m closira_agent.cli run-scenario escalation_trigger
 .venv/bin/python -m closira_agent.cli run-scenario lead_qualification
 .venv/bin/python -m closira_agent.cli run-scenario conversation_summary
+.venv/bin/python -m closira_agent.cli run-scenario real_booking_policy
+.venv/bin/python -m closira_agent.cli run-scenario real_price_negotiation
+.venv/bin/python -m closira_agent.cli run-scenario real_medical_safety
 ./scripts/smoke_real_api.sh
 ```
 
@@ -47,6 +50,7 @@ Latest local verification:
 
 - Pytest: 5 passed
 - Real CLI scenarios: available for all required behaviours
+- Real-world demo scenarios: available in `docs/real_world_case_scenarios.md`
 - Real API smoke test: passed with `gpt-5-mini`
 - Secret scan: no API key found in tracked files
 - `.env`, `.venv`, and `.repo` are ignored

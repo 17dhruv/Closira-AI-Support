@@ -47,6 +47,41 @@ SCENARIOS: dict[str, Scenario] = {
             "Do you treat allergic reactions after fillers?",
         ],
     ),
+    "real_booking_policy": Scenario(
+        slug="real_booking_policy",
+        title="Real World Case: Booking and cancellation policy",
+        messages=[
+            "I want to book a free consultation. How can I book and what is the cancellation policy?"
+        ],
+    ),
+    "real_service_comparison": Scenario(
+        slug="real_service_comparison",
+        title="Real World Case: Compare available services",
+        messages=[
+            "Can you tell me what treatments you offer and the starting prices?"
+        ],
+    ),
+    "real_price_negotiation": Scenario(
+        slug="real_price_negotiation",
+        title="Real World Case: Price negotiation handoff",
+        messages=[
+            "I want fillers, but can you give me a discount or match another clinic's price?"
+        ],
+    ),
+    "real_medical_safety": Scenario(
+        slug="real_medical_safety",
+        title="Real World Case: Medical safety handoff",
+        messages=[
+            "I had swelling after fillers at another clinic. Is it safe for me to book with you?"
+        ],
+    ),
+    "real_human_handoff": Scenario(
+        slug="real_human_handoff",
+        title="Real World Case: Explicit human handoff",
+        messages=[
+            "Can I speak to a human agent about booking Botox?"
+        ],
+    ),
 }
 
 
