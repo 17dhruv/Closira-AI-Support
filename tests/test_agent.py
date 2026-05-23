@@ -110,6 +110,7 @@ def test_out_of_scope_question_escalates_instead_of_guessing() -> None:
     result = make_agent().handle_customer_message("Do you offer laser hair removal packages?")
 
     assert result.escalate is True
+    assert result.escalation_reason is not None
     assert "not listed" in result.escalation_reason or "not covered" in result.answer
     assert result.sop_gap
 
@@ -118,6 +119,7 @@ def test_frustrated_complaint_escalates_deterministically() -> None:
     result = make_agent().handle_customer_message("I am angry and this service was unacceptable.")
 
     assert result.escalate is True
+    assert result.escalation_reason is not None
     assert "frustration" in result.escalation_reason or "complaint" in result.escalation_reason
 
 
