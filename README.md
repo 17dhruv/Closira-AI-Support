@@ -1,13 +1,36 @@
 # Closira AI Support Workflow
 
-Python CLI prototype for the Closira AI Engineering Intern assignment. It handles a simulated customer support conversation for Bloom Aesthetics Clinic across FAQ answering, lead qualification, escalation detection, and final conversation summary.
+Python CLI prototype for the Closira AI Engineering Intern assignment. The workflow handles customer support for a fictional SMB, Bloom Aesthetics Clinic, across SOP-grounded FAQ answering, lead qualification, escalation detection, and structured conversation summaries.
 
-## What This Demonstrates
+## Highlights
 
-- FAQ answers are grounded only in `data/sop.json`.
-- Lead qualification asks structured follow-up questions and stores answers.
-- Escalation is triggered for low confidence, out-of-scope questions, complaints, medical questions, price negotiation, explicit human requests, or more than two unanswered questions.
-- End-of-session summaries include intent, details collected, SOP gaps, escalation reasons, and recommended next action.
+- Uses the OpenAI Responses API with structured JSON outputs.
+- Answers only from `data/sop.json` and cites SOP source keys.
+- Escalates out-of-scope questions, low confidence, complaints, medical questions, pricing negotiation, explicit human requests, and repeated unanswered questions.
+- Collects lead qualification details such as treatment interest, timeline, and preferred booking channel.
+- Includes required test transcripts plus real-world demo scenarios with expected-vs-actual evaluation criteria.
+
+## Project Structure
+
+```text
+closira_agent/
+  agent.py              Core workflow, state handling, escalation checks
+  cli.py                Real API-backed CLI
+  config.py             Environment/model configuration
+  formatting.py         Human-readable CLI output
+  models.py             Conversation result and summary models
+  openai_client.py      OpenAI Responses API structured-output adapter
+  prompts.py            System, turn, and summary prompts
+  scenarios.py          Required and real-world scripted scenarios
+  sop.py                SOP loading helpers
+data/
+  sop.json              Bloom Aesthetics Clinic SOP source of truth
+docs/
+  real_world_case_scenarios.md
+  video_walkthrough_script.md
+test_transcripts/       Required assignment sample conversations
+tests/                  Automated behaviour tests
+```
 
 ## Setup
 
@@ -17,36 +40,36 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Set your OpenAI API key:
+Create a private `.env` file:
 
 ```bash
-export OPENAI_API_KEY="your-openai-api-key-here"
-export OPENAI_MODEL="gpt-5-mini"
+cp .env.example .env
 ```
 
-You can also copy `.env.example` to `.env` and fill in your key. `.env` is ignored by git and must never be committed. Do not paste your API key into `.venv/bin/activate`, source files, docs, transcripts, or terminal commands that will be saved in shell history.
-
-The default model is `gpt-5-mini` for cost control. Current OpenAI model docs list `gpt-5-mini` as the faster, cost-efficient GPT-5 model with Responses API and structured output support. To use a stronger frontier model, set another available model explicitly:
+Fill it with:
 
 ```bash
-export OPENAI_MODEL="gpt-5.2"
+OPENAI_API_KEY=your-openai-api-key-here
+OPENAI_MODEL=gpt-5-mini
 ```
 
-## Run
+`.env` is ignored by git. Do not commit API keys, virtual environments, caches, or local repo metadata.
 
-Interactive API-backed chat:
+## Run The Workflow
+
+Interactive chat:
 
 ```bash
-python -m closira_agent.cli chat
+.venv/bin/python -m closira_agent.cli chat
 ```
 
-Run a scripted assignment scenario with the real API:
+Run a required assignment scenario:
 
 ```bash
-python -m closira_agent.cli run-scenario in_sop
+.venv/bin/python -m closira_agent.cli run-scenario in_sop
 ```
 
-Or use the smoke-test helper:
+Run the real API smoke test:
 
 ```bash
 ./scripts/smoke_real_api.sh
@@ -55,32 +78,54 @@ Or use the smoke-test helper:
 Available scenarios:
 
 ```text
-in_sop, out_of_scope, escalation_trigger, lead_qualification, conversation_summary,
-real_booking_policy, real_service_comparison, real_price_negotiation,
-real_medical_safety, real_human_handoff
+in_sop
+out_of_scope
+escalation_trigger
+lead_qualification
+conversation_summary
+real_booking_policy
+real_service_comparison
+real_price_negotiation
+real_medical_safety
+real_human_handoff
 ```
 
-Real-world demo scenarios and expected-vs-actual evaluation criteria are documented in `docs/real_world_case_scenarios.md`.
+## Real-World Demo Scenarios
+
+The assignment checklist is covered by the five required transcripts. I also added real-world scenarios for a stronger walkthrough:
+
+- Booking and cancellation policy
+- Service comparison
+- Price negotiation handoff
+- Medical safety handoff
+- Explicit human handoff
+
+See [docs/real_world_case_scenarios.md](docs/real_world_case_scenarios.md) for the expected-vs-actual evaluation table and scorecard.
 
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest
+.venv/bin/python -m pytest -v
 ```
 
-The automated tests use a local test adapter so they do not require `OPENAI_API_KEY` and do not spend API credits. The CLI itself is real-API backed and requires `OPENAI_API_KEY`.
+The automated tests use a local test adapter so they do not spend OpenAI credits. The public CLI itself is real API-backed and requires `OPENAI_API_KEY`.
 
-## Assignment Checklist
+## Assignment Coverage
 
-- GitHub repo with code: this project is structured as a clean Python package.
-- `prompt_design.md`: included with the full prompt and design rationale.
-- `test_transcripts/`: included with one transcript per required behaviour.
-- `README.md`: this setup and usage guide.
-- 2-5 minute video walkthrough: use `docs/video_walkthrough_script.md` as a recording script.
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| FAQ answering from SOP only | Complete | `data/sop.json`, `closira_agent/agent.py`, `test_transcripts/01_in_sop.md` |
+| Lead qualification | Complete | `ConversationState`, `lead_qualification` scenario, `test_transcripts/04_lead_qualification.md` |
+| Escalation detection | Complete | deterministic checks in `closira_agent/agent.py` |
+| Conversation summary | Complete | `ClosiraAgent.summarize`, `test_transcripts/05_conversation_summary.md` |
+| Prompt design document | Complete | `prompt_design.md` |
+| Test transcripts | Complete | `test_transcripts/` |
+| Setup and trade-offs | Complete | this README |
+| Video walkthrough support | Complete | `docs/video_walkthrough_script.md` |
 
 ## SOP Source
 
-The assistant operates on `data/sop.json`, based on the provided assignment SOP:
+The assistant operates on `data/sop.json`:
 
 - Business: Bloom Aesthetics Clinic
 - Hours: Mon-Sat, 9 am-7 pm
@@ -89,9 +134,18 @@ The assistant operates on `data/sop.json`, based on the provided assignment SOP:
 - Cancellation: 24hr cancellation required
 - Escalate if: complaint, medical question, pricing negotiation, or more than two unanswered questions
 
-## Trade-Offs and Limitations
+## Safety Design
+
+- The model must return structured JSON.
+- Factual answers must include SOP source keys.
+- Missing SOP evidence forces escalation.
+- Medical questions are escalated instead of answered.
+- Pricing negotiation is escalated instead of inventing discounts.
+- Angry sentiment and explicit human handoff requests are caught before model response.
+
+## Trade-Offs And Limitations
 
 - This is a CLI prototype, not a production WhatsApp/email/phone integration.
-- The SOP is intentionally small to prove safe grounding behaviour.
-- Medical and complaint handling is escalated instead of answered.
-- Checked-in transcripts are sample conversations for the required assignment behaviours.
+- The SOP is intentionally compact to demonstrate safe grounding.
+- The workflow is optimized for reliability and explainability over broad conversational freedom.
+- Checked-in transcripts are sample conversations for the assignment behaviours.
